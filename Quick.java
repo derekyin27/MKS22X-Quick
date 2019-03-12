@@ -5,18 +5,18 @@ public static int quickSelect(int[] data, int k){
   data[random] = data[end];
   data[end] = temp;
   int pivot = temp;
-  while (start <end){
-    while (data[start] < pivot){
-      start++;
-    }
-    while (data[end] > pivot){
-      end--;
-    }
-    if (start < end){
-      int temp = data[start];
-      data[start] = data[end];
-      data[end] = temp;
+  int up = end;
+  int low = start-1;
+
+  for (int i =start; i < up; i++){
+    if (data[i] <= pivot){
+      low++;
+      int temp1 = data[low];
+      data[low] = data[i];
+      data[i] = temp1;
     }
   }
+  int temp2 = data[low+1];
+  data[low+1] = 
   return end;
 }

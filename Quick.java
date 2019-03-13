@@ -40,6 +40,17 @@ public class Quick{
     }
     else return data[pivot];
   }
+
+  public static void quickSort(int[] data){
+    quickSortH(data, 0, data.length-1);
+    }
+    private static void quickSortH(int[] data, int start, int end){
+      if (start>=end) return;
+      int pivot = partition(data, start, end);
+      quickSortH(data, start, pivot-1);// sort the array by halves.
+      quickSortH(data, pivot+1, end);
+    }
+  
   public static void main(String[] args) {
     int[] data = {4, 5, 9, 1, 2, 3};
     System.out.println(quickselect(data, 2));

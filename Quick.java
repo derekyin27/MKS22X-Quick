@@ -4,9 +4,10 @@ public class Quick{
       throw new IndexOutOfBoundsException();
     }
 
-  int random = (int)(Math.random() * (end - start) + start);
+  int random = (int)(Math.random() * (end - start) + start+1);
   int pivot = data[random];
-  System.out.println(pivot);
+  int upper = end;
+  int lower = start;
   while (start <end){
   while (data[start] < pivot){
     start++;
@@ -23,14 +24,6 @@ public class Quick{
   return end;
   }
 
-<<<<<<< HEAD
-  for (int i =start; i < up; i++){
-    if (data[i] <= pivot){
-      low++;
-      int temp1 = data[low];// swap if int at index is smaller or equal to the pivot (sort in terms of larger, smaller or equal)
-      data[low] = data[i];
-      data[i] = temp1;
-=======
   public static int quickselect(int[] data, int k){
     int comp = partition(data, 0, data.length-1);
     if (comp == k){
@@ -39,7 +32,6 @@ public class Quick{
     while (comp < k){
       comp = partition(data, comp+1, data.length-1);
       comp++;
->>>>>>> db9a63c195261ae29240031ee73f8514aae28977
     }
     while (comp > k){
       comp = partition(data, 0, comp-1);
@@ -51,15 +43,4 @@ public class Quick{
     int[] data = {4, 5, 9, 1, 2, 3};
     System.out.println(quickselect(data, 2));
   }
-<<<<<<< HEAD
-  int temp2 = data[low+1];
-  data[low+1] = data[end];
-  data[end] = temp2;
-  return low +1;
-}
-public static void main(String[] args) {
-  int[]ary = { 2, 10, 15, 23, 0,  5};
-}
-=======
->>>>>>> db9a63c195261ae29240031ee73f8514aae28977
 }

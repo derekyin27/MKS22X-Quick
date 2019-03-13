@@ -8,36 +8,37 @@ public class Quick{
   int pivot = data[random];
   int upper = end;
   int lower = start;
-  while (start <end){
-  while (data[start] < pivot){
-    start++;
+  while (lower < upper){
+    while (lower <=upper && data[lower] < pivot){//while elements in array are lower than the pivot, start working with smaller part of array
+      lower++;
+    }
+    while (upper>= lower && data[upper] > pivot){
+      upper--;
+    }
+    if (upper>lower){//once gone through all values except last 3, swap the 2 ends
+      int temp = data[upper];
+      data[upper] = data[lower];
+      data[lower] = temp;
+    }
   }
-  while (data[end] > pivot){
-    end--;
-  }
-  if (start < end){
-    int temp = data[start];
-    data[start] = data[end];
-    data[end] = temp;
-  }
-  }
-  return end;
+  return lower;//return last position of hte pivot
   }
 
   public static int quickselect(int[] data, int k){
-    int comp = partition(data, 0, data.length-1);
-    if (comp == k){
-      return data[comp];
+    return quickselectH(data, k, 0, data.length-1);
+  }
+  private static int quickselectH(int[] data, int k, int start, int end){
+    int pivot = partition(data, start, end);
+    if (pivot == k){
+      return data[k];
     }
-    while (comp < k){
-      comp = partition(data, comp+1, data.length-1);
-      comp++;
+    else if (k > pivot){
+      return quickselectH(data, k, pivot+1, end);//if index greater than pivot, only return partition from pivot+ 1 to the end;
     }
-    while (comp > k){
-      comp = partition(data, 0, comp-1);
-      comp--;
+    else if (k < pivot){
+      return quickselectH(data, k, start, pivot);
     }
-    return data[comp];
+    else return data[pivot];
   }
   public static void main(String[] args) {
     int[] data = {4, 5, 9, 1, 2, 3};

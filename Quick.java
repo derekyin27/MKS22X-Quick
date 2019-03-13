@@ -1,10 +1,11 @@
+import java.util.Arrays;
 public class Quick{
   public static int partition(int[] data, int start, int end){
     if (start<0 || start>= data.length || end < 0 || end >= data.length){
       throw new IndexOutOfBoundsException();
     }
 
-  int random = (int)(Math.random() * (end - start) + start+1);
+  int random = (int)(Math.random() * (end - start) + start);
   int pivot = data[random];
   int upper = end;
   int lower = start;
@@ -32,16 +33,17 @@ public class Quick{
     if (pivot == k){
       return data[k];
     }
+
     else if (k > pivot){
       return quickselectH(data, k, pivot+1, end);//if index greater than pivot, only return partition from pivot+ 1 to the end;
     }
     else if (k < pivot){
-      return quickselectH(data, k, start, pivot);
+      return quickselectH(data, k, start, pivot-1);
     }
     else return data[pivot];
   }
 
-  public static void quickSort(int[] data){
+  public static void quicksort(int[] data){
     quickSortH(data, 0, data.length-1);
     }
     private static void quickSortH(int[] data, int start, int end){
@@ -50,9 +52,19 @@ public class Quick{
       quickSortH(data, start, pivot-1);// sort the array by halves.
       quickSortH(data, pivot+1, end);
     }
-  
+
   public static void main(String[] args) {
-    int[] data = {4, 5, 9, 1, 2, 3};
+    int[] data = {4, 5, 9, 1, 2, 3, 14, 12, 12};
+    int[] data2 = {4, 5, 9, 1, 2, 3, 14, 12, 12};
+    int[] data3 = new int[1000001];
+    for (int i =0; i < 1000000; i++){
+      data3[i] = (int)(Math.random());
+    }
+    quicksort(data3);
     System.out.println(quickselect(data, 2));
+    quicksort(data);
+    System.out.println(Arrays.toString(data));
+    Arrays.sort(data2);
+    System.out.println(Arrays.toString(data2));
   }
 }

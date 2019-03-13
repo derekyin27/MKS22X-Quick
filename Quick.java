@@ -56,11 +56,6 @@ public class Quick{
   public static void main(String[] args) {
     int[] data = {4, 5, 9, 1, 2, 3, 14, 12, 12};
     int[] data2 = {4, 5, 9, 1, 2, 3, 14, 12, 12};
-    int[] data3 = new int[1000001];
-    for (int i =0; i < 1000000; i++){
-      data3[i] = (int)(Math.random());
-    }
-    quicksort(data3);
     System.out.println(quickselect(data, 2));
     quicksort(data);
     System.out.println(Arrays.toString(data));

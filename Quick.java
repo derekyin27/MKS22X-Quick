@@ -36,6 +36,13 @@ int pivot = data[end];//swapped value become pivot
       lower++;
       switchPlace(data, lower, i);//swap places every time a value smaller than pivot
     }
+    if (data[i] == pivot){
+      int x = (int)(Math.random() * 2);
+      if (x == 1){
+        lower++;
+        switchPlace(data, lower, i);
+      }
+    }
   }
   switchPlace(data, lower+1, end);//swap last 2 values
 

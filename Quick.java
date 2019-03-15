@@ -1,28 +1,45 @@
 import java.util.Arrays;
 public class Quick{
+
+  private static void switchPlace(int[] data, int first, int second){
+    int temp = data[first];
+    data[first] = data[second];
+    data[second] = temp;
+  }
+  public static int median(int x, int y, int z){
+    if ((x > y && x < z ) || (x < y && x > z )) return 0;
+    if ((x > y && y > z ) || (x < y && y < z )) return 1;
+    return 2;
+  }
   public static int partition(int[] data, int start, int end){
     if (start<0 || start>= data.length || end < 0 || end >= data.length){
       throw new IndexOutOfBoundsException();
     }
-
-  int random = (int)(Math.random() * (end - start) + start);
-  int pivot = data[random];
+    int mid = ((end-start) / 2) + start;
+  int med = median(data[start], data[mid], data[end]);
+  int toSwap;
+  if (med == 0){
+    toSwap = start;
+  }
+  else if (med == 1){
+    toSwap = mid;
+  }
+else if (med == 2){
+   toSwap = end;
+ }
+switchPlace(data, toSwap, end);
+int pivot = data[end];
   int upper = end;
-  int lower = start;
-  while (lower < upper){
-    while (lower <=upper && data[lower] < pivot){//while elements in array are lower than the pivot, start working with smaller part of array
+  int lower = start-1;;
+  for (int i = start; i < upper; i++){
+    if (data[i] < pivot){
       lower++;
-    }
-    while (upper>= lower && data[upper] > pivot){
-      upper--;
-    }
-    if (upper>lower){//once gone through all values except last 3, swap the 2 ends
-      int temp = data[upper];
-      data[upper] = data[lower];
-      data[lower] = temp;
+      switchPlace(data, lower, i);
     }
   }
-  return lower;//return last position of hte pivot
+  switchPlace(data, lower+1, end);
+
+  return lower+1;//return last position of hte pivot
   }
 
   public static int quickselect(int[] data, int k){
@@ -48,18 +65,45 @@ public class Quick{
     }
     private static void quickSortH(int[] data, int start, int end){
       if (start>=end) return;
+      else{
       int pivot = partition(data, start, end);
       quickSortH(data, start, pivot-1);// sort the array by halves.
       quickSortH(data, pivot+1, end);
     }
+    }
 
   public static void main(String[] args) {
-    int[] data = {4, 5, 9, 1, 2, 3, 14, 12, 12};
-    int[] data2 = {4, 5, 9, 1, 2, 3, 14, 12, 12};
-    System.out.println(quickselect(data, 2));
-    quicksort(data);
-    System.out.println(Arrays.toString(data));
-    Arrays.sort(data2);
-    System.out.println(Arrays.toString(data2));
+  System.out.println("Size\t\tMax Value\tquick/builtin ratio ");
+  int[]MAX_LIST = {1000000000,500,10};
+  for(int MAX : MAX_LIST){
+    for(int size = 31250; size < 2000001; size*=2){
+      long qtime=0;
+      long btime=0;
+      //average of 5 sorts.
+      for(int trial = 0 ; trial <=5; trial++){
+        int []data1 = new int[size];
+        int []data2 = new int[size];
+        for(int i = 0; i < data1.length; i++){
+          data1[i] = (int)(Math.random()*MAX);
+          data2[i] = data1[i];
+        }
+        long t1,t2;
+        t1 = System.currentTimeMillis();
+        Quick.quicksort(data2);
+        t2 = System.currentTimeMillis();
+        qtime += t2 - t1;
+        t1 = System.currentTimeMillis();
+        Arrays.sort(data1);
+        t2 = System.currentTimeMillis();
+        btime+= t2 - t1;
+        if(!Arrays.equals(data1,data2)){
+          System.out.println("FAIL TO SORT!");
+          System.exit(0);
+        }
+      }
+      System.out.println(size +"\t\t"+MAX+"\t"+1.0*qtime/btime);
+    }
+    System.out.println();
   }
+}
 }

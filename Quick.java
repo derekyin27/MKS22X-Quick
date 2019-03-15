@@ -1,28 +1,45 @@
 import java.util.Arrays;
 public class Quick{
+
+  private static void switchPlace(int[] data, int first, int second){
+    int temp = data[first];
+    data[first] = data[second];
+    data[second] = temp;
+  }
+  public static int median(int x, int y, int z){
+    if ((x > y && x < z ) || (x < y && x > z )) return 0;
+    if ((x > y && y > z ) || (x < y && y < z )) return 1;
+    return 2;
+  }
   public static int partition(int[] data, int start, int end){
     if (start<0 || start>= data.length || end < 0 || end >= data.length){
       throw new IndexOutOfBoundsException();
     }
+    int mid = ((end-start) / 2) + start;
+  int med = median(data[start], data[mid], data[end]);//whichever value is the median value is switched with the end value, and becomes the pivot
 
-  int random = (int)(Math.random() * (end - start) + start);
-  int pivot = data[random];
+  if (med == 0){
+    switchPlace(data, start, end);
+  }
+  else if (med == 1){
+    switchPlace(data, mid, end);
+  }
+else{
+   switchPlace(data, end, end);
+ }
+
+int pivot = data[end];//swapped value become pivot
   int upper = end;
-  int lower = start;
-  while (lower < upper){
-    while (lower <=upper && data[lower] < pivot){//while elements in array are lower than the pivot, start working with smaller part of array
+  int lower = start-1;//
+  for (int i = start; i < upper; i++){
+    if (data[i] < pivot){
       lower++;
-    }
-    while (upper>= lower && data[upper] > pivot){
-      upper--;
-    }
-    if (upper>lower){//once gone through all values except last 3, swap the 2 ends
-      int temp = data[upper];
-      data[upper] = data[lower];
-      data[lower] = temp;
+      switchPlace(data, lower, i);//swap places every time a value smaller than pivot
     }
   }
-  return lower;//return last position of hte pivot
+  switchPlace(data, lower+1, end);//swap last 2 values
+
+  return lower+1;//returns index of pivot
   }
 
   public static int quickselect(int[] data, int k){
@@ -30,11 +47,11 @@ public class Quick{
   }
   private static int quickselectH(int[] data, int k, int start, int end){
     int pivot = partition(data, start, end);
-    if (pivot == k){
+    if (pivot == k){//if pivot = index then quickselect is done
       return data[k];
     }
 
-    else if (k > pivot){
+    else if (k > pivot){//recursively solve
       return quickselectH(data, k, pivot+1, end);//if index greater than pivot, only return partition from pivot+ 1 to the end;
     }
     else if (k < pivot){
@@ -48,9 +65,11 @@ public class Quick{
     }
     private static void quickSortH(int[] data, int start, int end){
       if (start>=end) return;
+      else{
       int pivot = partition(data, start, end);
       quickSortH(data, start, pivot-1);// sort the array by halves.
-      quickSortH(data, pivot+1, end);
+      quickSortH(data, pivot+1, end);// stack overflow when driver runs for too long???
+    }
     }
 
     public static void main(String[]args){

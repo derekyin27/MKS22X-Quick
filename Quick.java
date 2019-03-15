@@ -16,30 +16,30 @@ public class Quick{
       throw new IndexOutOfBoundsException();
     }
     int mid = ((end-start) / 2) + start;
-  int med = median(data[start], data[mid], data[end]);
-  int toSwap;
+  int med = median(data[start], data[mid], data[end]);//whichever value is the median value is switched with the end value, and becomes the pivot
+
   if (med == 0){
-    toSwap = start;
+    switchPlace(data, start, end);
   }
   else if (med == 1){
-    toSwap = mid;
+    switchPlace(data, mid, end);
   }
-else if (med == 2){
-   toSwap = end;
+else{
+   switchPlace(data, end, end);
  }
-switchPlace(data, toSwap, end);
-int pivot = data[end];
+
+int pivot = data[end];//swapped value become pivot
   int upper = end;
-  int lower = start-1;;
+  int lower = start-1;//
   for (int i = start; i < upper; i++){
     if (data[i] < pivot){
       lower++;
-      switchPlace(data, lower, i);
+      switchPlace(data, lower, i);//swap places every time a value smaller than pivot
     }
   }
-  switchPlace(data, lower+1, end);
+  switchPlace(data, lower+1, end);//swap last 2 values
 
-  return lower+1;//return last position of hte pivot
+  return lower+1;//returns index of pivot
   }
 
   public static int quickselect(int[] data, int k){
@@ -47,11 +47,11 @@ int pivot = data[end];
   }
   private static int quickselectH(int[] data, int k, int start, int end){
     int pivot = partition(data, start, end);
-    if (pivot == k){
+    if (pivot == k){//if pivot = index then quickselect is done
       return data[k];
     }
 
-    else if (k > pivot){
+    else if (k > pivot){//recursively solve
       return quickselectH(data, k, pivot+1, end);//if index greater than pivot, only return partition from pivot+ 1 to the end;
     }
     else if (k < pivot){
@@ -68,7 +68,7 @@ int pivot = data[end];
       else{
       int pivot = partition(data, start, end);
       quickSortH(data, start, pivot-1);// sort the array by halves.
-      quickSortH(data, pivot+1, end);
+      quickSortH(data, pivot+1, end);// stack overflow when driver runs for too long???
     }
     }
 

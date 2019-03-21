@@ -83,6 +83,9 @@ int pivot = data[end];//swapped value become pivot
     }
     private static void quickSortH(int[] data, int start, int end){
       if (start>=end) return;
+      if (end - start <= 30)
+     insertionSort(data, start, end);
+
       else{
       int pivot = partition(data, start, end);
       quickSortH(data, start, pivot-1);// sort the array by halves.

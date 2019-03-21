@@ -1,6 +1,17 @@
 import java.util.Arrays;
 public class Quick{
-
+  private static void insertionSort(int[] data, int low, int high){
+      int comp;
+      for (int i = low + 1; i < high + 1; i++){
+        comp = data[i];
+        int count = i;
+        while (count > low && comp < data[count - 1]){
+          data[count] = data[count - 1];
+          count--;
+        }
+        data[count] = comp;
+      }
+    }
   private static void switchPlace(int[] data, int first, int second){
     int temp = data[first];
     data[first] = data[second];
